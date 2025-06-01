@@ -1,10 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>FeedBackFinal – Noticias Espaciales</title>
+    <!-- Enlaza el CSS estático ubicado en src/main/resources/static/css/style.css -->
+    <link rel="stylesheet" th:href="@{/static/style.css}" />
 </head>
 <body>
-$END$
+<header>
+    <h1>Noticias Espaciales</h1>
+</header>
+<main>
+    <!-- Sección con rejilla de artículos -->
+    <section class="articles-container">
+        <!-- Iteramos sobre la colección "articles" que el controlador puso en el modelo -->
+        <article th:each="art : ${articles}">
+            <div class="article-image">
+                <!-- Mostramos la imagen; si art.image_url es null o vacío, no cargará nada -->
+                <img th:src="${art.image_url}" th:alt="${art.title}" />
+            </div>
+            <div class="article-content">
+                <!-- Título con enlace a la noticia original -->
+                <h2>
+                    <a th:href="${art.url}" th:text="${art.title}" target="_blank"></a>
+                </h2>
+                <!-- Resumen de la noticia -->
+                <p th:text="${art.summary}"></p>
+                <!-- Lista de autores asociados a este artículo -->
+                <h3>Autores:</h3>
+                <ul>
+                    <!-- Iteramos sobre art.authors; cada "au" es un Author -->
+                    <li th:each="au : ${art.authors}">
+                        <!-- Nombre del autor -->
+                        <strong th:text="${au.name}"></strong>
+                    </li>
+                </ul>
+            </div>
+        </article>
+    </section>
+</main>
+<footer>
+    <p>&copy; 2025 FeedBackFinal</p>
+</footer>
 </body>
 </html>
